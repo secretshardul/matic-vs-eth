@@ -5,21 +5,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
 
-
-
+    <!-- Eth vs Matic widget -->
     <script type="text/javascript" src="matic-ether-price-widget.js"></script>
 
     <!-- Google charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+    <!-- Program to display price comparison -->
     <script type="text/javascript" src="script.js"></script>
 
     <title>Matic vs Ether</title>
   </head>
-  <body>
+  <body onload="getGasFees()">
     <nav class="navbar navbar-light bg-primary">
         <a class="navbar-brand text-light" id="navbar" href="#">
             Matic vs Ether
@@ -33,6 +36,7 @@
         </div>
 
         <div class="row">
+            <!-- Column graph comparing eth and matic gas fees -->
             <div class="col col-md-6">
                 <div class="card" id="chart-card">
                     <figure class="text-center mt-2">
@@ -42,10 +46,22 @@
                 </div>
             </div>
 
+            <!-- Table comparing gas costs in USD -->
+            <div class="col col-md-6">
+                <div class="card" id="chart-card">
+                    <h4 class="text-center mt-2">Gas fees in USD</h4>
+
+                    <p class="text-center">Gas Used = 21000</p>
+
+
+                    <div id="gas-table"></div>
+                </div>
+            </div>
+
         </div>
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
   </body>
 </html>
