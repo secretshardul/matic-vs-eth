@@ -1,5 +1,10 @@
 # Matic vs Ethereum
+![Logo](https://user-images.githubusercontent.com/49580849/113202921-fe9f6a80-9288-11eb-96ae-e0dd740fa091.png)
+
 Ethereum gas prices are skyrocketing ($10 for safe slow today 😵). Matic is a layer 2 solution which overcomes the scalability limitations of Ethereum. I couldn't find a quantitative comparison between the two, so I built this dashboard.
+
+## Live demo
+https://matic-vs-eth.netlify.app/
 
 ## Features
 - Compare Matic and Ethereum gas prices over time
