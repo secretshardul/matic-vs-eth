@@ -6,6 +6,9 @@ Ethereum gas prices are skyrocketing ($10 for safe slow today 😵). Matic is a 
 ## Live demo
 https://matic-vs-eth.netlify.app/
 
+## Video
+[![Video](https://user-images.githubusercontent.com/49580849/113215402-6b6e3100-9298-11eb-8302-1efb2af892e1.png)](https://www.youtube.com/watch?v=2T8bY36Aztk)
+
 ## Features
 - Compare Matic and Ethereum gas prices over time
 - Column graph comparing gas prices in Gwei
