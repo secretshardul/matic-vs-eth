@@ -1,32 +1,42 @@
+async function getMaticFees() {
+    const resp = await fetch('https://gasstation-mainnet.matic.network')
+    const fees = await resp.json()
+
+    console.log('Matic fees', fees)
+    return fees
+}
+
+async function getEthFees() {
+    const resp = await fetch('https://ethgasstation.info/api/ethgasAPI.json')
+    const fees = await resp.json()
+
+    console.log('Eth fees', fees)
+    return fees
+}
+
 google.charts.load('current', { packages: ['corechart', 'bar'] })
-google.charts.setOnLoadCallback(drawDualX)
+google.charts.setOnLoadCallback(drawCharts)
 
-function drawDualX () {
-    const data = google.visualization.arrayToDataTable([
+async function drawCharts() {
+    const maticFees = await getMaticFees()
+    const ethFees = await getEthFees()
+
+    const values = [
         ['Speed', 'Matic', 'Ethereum'],
-        ['Fast', 8175000, 8008000],
-        ['Medium', 3792000, 3694000],
-        ['Slow', 2695000, 2896000],
-    ])
+        ['Slow', maticFees.safeLow, ethFees.safeLow / 10],
+        ['Medium', maticFees.standard, ethFees.average / 10],
+        ['Fast', maticFees.fast, ethFees.fast / 10],
+    ]
 
-    const materialOptions = {
-        hAxis: {
-            title: 'Total Population'
-        },
-        vAxis: {
-            title: 'City'
-        },
-        bars: 'horizontal',
-        series: {
-            0: { axis: 'matic' },
-        },
-        axes: {
-            x: {
-                matic: { label: 'Gwei', side: 'top' },
-            }
-        }
-    }
+    // Gas price comparison in Gwei
+    draw(values, 'Gwei', 'chart_div')
+}
 
-    const materialChart = new google.charts.Bar(document.getElementById('chart_div'))
+function draw(values, labelName, elementId) {
+    const data = google.visualization.arrayToDataTable(values)
+
+    const materialOptions = {}
+
+    const materialChart = new google.charts.Bar(document.getElementById(elementId))
     materialChart.draw(data, materialOptions)
 }
