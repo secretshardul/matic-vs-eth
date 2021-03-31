@@ -1,6 +1,9 @@
 let maticFees = undefined
 let ethFees = undefined
 
+/**
+ * Get Matic gas fees
+ */
 async function getMaticFees() {
     const resp = await fetch('https://gasstation-mainnet.matic.network')
     const fees = await resp.json()
@@ -9,6 +12,9 @@ async function getMaticFees() {
     return fees
 }
 
+/**
+ * Get Ethereum gas fees
+ */
 async function getEthFees() {
     const resp = await fetch('https://ethgasstation.info/api/ethgasAPI.json')
     const fees = await resp.json()
@@ -17,7 +23,10 @@ async function getEthFees() {
     return fees
 }
 
-async function drawCharts() {
+/**
+ * Draw column chart comparing gas fees in Gwei
+ */
+async function drawChart() {
     const values = [
         ['Speed', 'Matic', 'Ethereum'],
         ['Slow', maticFees.safeLow, ethFees.safeLow / 10],
@@ -68,30 +77,28 @@ function getTable (mFast, mMed, mSlow, ethFast, ethMed, ethSlow) {
             </table>`
 }
 
-function getFee(gasPrice, rate) {
+/**
+ * Calculates gas fee in USD
+ * @param {number} gasPrice
+ * @param {number} exchangeRate
+ * @returns string
+ */
+function getDollarFee(gasPrice, exchangeRate) {
     const gasUsed = 21000
-    const cost = gasPrice * gasUsed * 0.000000001 * rate
-    // const cost = (gwei * rate) / 10 ** 9
+    const cost = gasPrice * gasUsed * 0.000000001 * exchangeRate
     return cost.toFixed(6)
 }
 
-async function getExchangeRates() {
-    const resp = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cmatic-network&vs_currencies=usd')
-    const rates = await resp.json()
-
-}
-
-
+/**
+ * Fetch gas fees and exchange rates to display a column chart and table
+ */
 async function getGasFees() {
     maticFees = await getMaticFees()
     ethFees = await getEthFees()
 
     // Draw column graph
     google.charts.load('current', { packages: ['corechart', 'bar'] })
-    google.charts.setOnLoadCallback(drawCharts)
-
-    const gasTable = document.getElementById('gas-table')
-
+    google.charts.setOnLoadCallback(drawChart)
 
     // Get exchange rates
     const resp = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cmatic-network&vs_currencies=usd')
@@ -102,16 +109,17 @@ async function getGasFees() {
 
     // Calculate fees and generate table
     const table = getTable(
-        getFee(maticFees.fast, maticRate),
-        getFee(maticFees.standard, maticRate),
-        getFee(maticFees.safeLow, maticRate),
+        getDollarFee(maticFees.fast, maticRate),
+        getDollarFee(maticFees.standard, maticRate),
+        getDollarFee(maticFees.safeLow, maticRate),
 
-        getFee(ethFees.fast / 10, ethRate),
-        getFee(ethFees.average / 10, ethRate),
-        getFee(ethFees.safeLow / 10, ethRate),
+        getDollarFee(ethFees.fast / 10, ethRate),
+        getDollarFee(ethFees.average / 10, ethRate),
+        getDollarFee(ethFees.safeLow / 10, ethRate),
     )
 
     // Display table
+    const gasTable = document.getElementById('gas-table')
     gasTable.innerHTML = table
 }
 
